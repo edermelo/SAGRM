@@ -1,0 +1,317 @@
+CREATE TABLE Bairro_tb (
+  idBairro_br INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+  Municipio_tb_Bairro_tb_idBairro_br INTEGER UNSIGNED NOT NULL,
+  Municipio_tb_Fornecedores_tb_idFornecedores_fo INTEGER(9) UNSIGNED NOT NULL,
+  Municipio_tb_Fornecedores_tb_Nome_fo TEXT(100) NOT NULL,
+  Municipio_tb_Fornecedores_tb_CPF_fo CHAR(14) NOT NULL,
+  Municipio_tb_Fornecedores_tb_CNPJ_fo CHAR(15) NOT NULL,
+  Municipio_tb_idMunicipio_tb INTEGER UNSIGNED NOT NULL,
+  Nome_br TEXT(50) NULL,
+  Cidade_br TEXT(50) NULL,
+  Area_br FLOAT NULL,
+  Populacao_br INTEGER UNSIGNED NULL,
+  PRIMARY KEY(idBairro_br),
+  INDEX Bairro_tb_FKIndex1(Municipio_tb_idMunicipio_tb, Municipio_tb_Fornecedores_tb_CNPJ_fo, Municipio_tb_Fornecedores_tb_CPF_fo, Municipio_tb_Fornecedores_tb_Nome_fo, Municipio_tb_Fornecedores_tb_idFornecedores_fo, Municipio_tb_Bairro_tb_idBairro_br)
+);
+
+CREATE TABLE Cliente_tb (
+  idCliente_cl INTEGER(9) UNSIGNED NOT NULL AUTO_INCREMENT,
+  Cpf_cl CHAR(14) NOT NULL,
+  Nome_cl TEXT(100) NOT NULL,
+  Cnpj_cl CHAR(15) NULL,
+  Endereco_cl TEXT(50) NULL,
+  Bairro_cl TEXT(50) NULL,
+  Cidade_cl TEXT(50) NULL,
+  Telefone_cl CHAR(15) NULL,
+  Celular_cl CHAR(15) NULL,
+  AreaInterece_cl TEXT(50) NULL,
+  Email_cl TEXT(100) NULL,
+  PRIMARY KEY(idCliente_cl, Cpf_cl, Nome_cl)
+);
+
+CREATE TABLE Cliente_tb_has_Producao_tb (
+  Cliente_tb_Nome_cl TEXT(100) NOT NULL,
+  Cliente_tb_Cpf_cl CHAR(14) NOT NULL,
+  Cliente_tb_idCliente_cl INTEGER(9) UNSIGNED NOT NULL,
+  Producao_tb_Produto_pr TEXT(50) NOT NULL,
+  Producao_tb_idProducao_tb INTEGER UNSIGNED NOT NULL,
+  PRIMARY KEY(Cliente_tb_Nome_cl, Cliente_tb_Cpf_cl, Cliente_tb_idCliente_cl, Producao_tb_Produto_pr, Producao_tb_idProducao_tb),
+  INDEX Cliente_tb_has_Producao_tb_FKIndex1(Cliente_tb_idCliente_cl, Cliente_tb_Cpf_cl, Cliente_tb_Nome_cl),
+  INDEX Cliente_tb_has_Producao_tb_FKIndex2(Producao_tb_idProducao_tb, Producao_tb_Produto_pr)
+);
+
+CREATE TABLE Cooperativas_tb (
+  idCooperativas_co INTEGER(9) UNSIGNED NOT NULL AUTO_INCREMENT,
+  Nome_co TEXT(100) NOT NULL,
+  CNPJ_co INTEGER UNSIGNED NOT NULL,
+  Data_co DATE NULL,
+  Estado_co TEXT(2) NULL,
+  Endereco_co TEXT(50) NULL,
+  Bairro_co TEXT(50) NULL,
+  Cidade_co TEXT(50) NULL,
+  Telefone_co CHAR(15) NULL,
+  Representante_co TEXT(50) NULL,
+  RGRepCoop_co INTEGER UNSIGNED NULL,
+  CPFRepCoop_co CHAR(14) NULL,
+  CelularRepCoop_co CHAR(14) NULL,
+  PRIMARY KEY(idCooperativas_co, Nome_co, CNPJ_co)
+);
+
+CREATE TABLE Cooperativas_tb_has_Producao_tb (
+  Cooperativas_tb_CNPJ_co INTEGER UNSIGNED NOT NULL,
+  Cooperativas_tb_Nome_co TEXT(100) NOT NULL,
+  Cooperativas_tb_idCooperativas_co INTEGER(9) UNSIGNED NOT NULL,
+  Producao_tb_Produto_pr TEXT(50) NOT NULL,
+  Producao_tb_idProducao_tb INTEGER UNSIGNED NOT NULL,
+  PRIMARY KEY(Cooperativas_tb_CNPJ_co, Cooperativas_tb_Nome_co, Cooperativas_tb_idCooperativas_co, Producao_tb_Produto_pr, Producao_tb_idProducao_tb),
+  INDEX Cooperativas_tb_has_Producao_tb_FKIndex1(Cooperativas_tb_idCooperativas_co, Cooperativas_tb_Nome_co, Cooperativas_tb_CNPJ_co),
+  INDEX Cooperativas_tb_has_Producao_tb_FKIndex2(Producao_tb_idProducao_tb, Producao_tb_Produto_pr)
+);
+
+CREATE TABLE Fornecedores_tb (
+  idFornecedores_fo INTEGER(9) UNSIGNED NOT NULL AUTO_INCREMENT,
+  Nome_fo TEXT(100) NOT NULL,
+  CPF_fo CHAR(14) NOT NULL,
+  CNPJ_fo CHAR(15) NOT NULL,
+  Data_fo DATE NULL,
+  Email_fo CHAR(100) NULL,
+  Endereco_fo TEXT(50) NULL,
+  Bairro_fo TEXT(50) NULL,
+  Cidade_fo TEXT(50) NULL,
+  Estado_fo TEXT(2) NULL,
+  Telefone_fo CHAR(14) NULL,
+  Celular_fo CHAR(14) NULL,
+  AreaAtuacao_fo TEXT(50) NULL,
+  ServicosFor_fo TEXT(50) NULL,
+  ProdutosFor_fo TEXT(50) NULL,
+  PRIMARY KEY(idFornecedores_fo, Nome_fo, CPF_fo, CNPJ_fo)
+);
+
+CREATE TABLE Municipio_tb (
+  idMunicipio_tb INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+  Fornecedores_tb_CNPJ_fo CHAR(15) NOT NULL,
+  Fornecedores_tb_CPF_fo CHAR(14) NOT NULL,
+  Fornecedores_tb_Nome_fo TEXT(100) NOT NULL,
+  Fornecedores_tb_idFornecedores_fo INTEGER(9) UNSIGNED NOT NULL,
+  Bairro_tb_idBairro_br INTEGER UNSIGNED NOT NULL,
+  Municipio TEXT(50) NULL,
+  UF TEXT(50) NULL,
+  Area FLOAT NULL,
+  Populacao INTEGER UNSIGNED NULL,
+  Gentilico TEXT(50) NULL,
+  Densidade FLOAT NULL,
+  PIB FLOAT NULL,
+  Ano_senso DATE NULL,
+  PRIMARY KEY(idMunicipio_tb, Fornecedores_tb_CNPJ_fo, Fornecedores_tb_CPF_fo, Fornecedores_tb_Nome_fo, Fornecedores_tb_idFornecedores_fo, Bairro_tb_idBairro_br),
+  INDEX Municipio_tb_FKIndex1(Fornecedores_tb_idFornecedores_fo, Fornecedores_tb_Nome_fo, Fornecedores_tb_CPF_fo, Fornecedores_tb_CNPJ_fo),
+  INDEX Municipio_tb_FKIndex2(Bairro_tb_idBairro_br)
+);
+
+CREATE TABLE Producao_tb (
+  idProducao_tb INTEGER UNSIGNED NOT NULL,
+  Produto_pr TEXT(50) NOT NULL,
+  Usuario_tb_Nome_us TEXT(100) NOT NULL,
+  Usuario_tb_CPF_us INTEGER(14) UNSIGNED NOT NULL,
+  Usuario_tb_Matricula_us CHAR(9) NOT NULL,
+  Usuario_tb_idUsuario_tb INTEGER UNSIGNED NOT NULL,
+  Data_pr DATE(__/__/____) NULL,
+  Materia_pr INTEGER(200) UNSIGNED NULL,
+  Origem_pr TEXT(200) NULL,
+  Manipulacao_pr TEXT(50) NULL,
+  PesoMp_pr FLOAT NULL,
+  Processamento_pr TEXT(60) NULL,
+  PesoP_pr FLOAT NULL,
+  ValorAgregado_pr FLOAT NULL,
+  Destinacao_pr TEXT(50) NULL,
+  PercentualPvenda_pr FLOAT NULL,
+  PercentualPdescarte_pr FLOAT NULL,
+  OutrasDesti_pr TEXT(100) NULL,
+  Compradores TEXT(100) NULL,
+  PRIMARY KEY(idProducao_tb, Produto_pr),
+  INDEX Producao_tb_FKIndex1(Usuario_tb_idUsuario_tb, Usuario_tb_Matricula_us, Usuario_tb_CPF_us, Usuario_tb_Nome_us)
+);
+
+CREATE TABLE Produto_tb (
+  idProduto_pro INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+  Prodoto_pro TEXT(50) NOT NULL,
+  Data_pro DATE NULL,
+  Descricao_Pro TEXT(200) NULL,
+  Tipo_pro TEXT NULL,
+  Origem TEXT(50) NULL,
+  PRIMARY KEY(idProduto_pro, Prodoto_pro)
+);
+
+CREATE TABLE Produto_tb_has_Producao_tb (
+  Produto_tb_Prodoto_pro TEXT(50) NOT NULL,
+  Produto_tb_idProduto_pro INTEGER UNSIGNED NOT NULL,
+  Producao_tb_Produto_pr TEXT(50) NOT NULL,
+  Producao_tb_idProducao_tb INTEGER UNSIGNED NOT NULL,
+  PRIMARY KEY(Produto_tb_Prodoto_pro, Produto_tb_idProduto_pro, Producao_tb_Produto_pr, Producao_tb_idProducao_tb),
+  INDEX Produto_tb_has_Producao_tb_FKIndex1(Produto_tb_idProduto_pro, Produto_tb_Prodoto_pro),
+  INDEX Produto_tb_has_Producao_tb_FKIndex2(Producao_tb_idProducao_tb, Producao_tb_Produto_pr)
+);
+
+CREATE TABLE Rejeito_tb (
+  idRejeito_rj INTEGER(9) UNSIGNED NOT NULL AUTO_INCREMENT,
+  Producao_tb_Produto_pr TEXT(50) NOT NULL,
+  Producao_tb_idProducao_tb INTEGER UNSIGNED NOT NULL,
+  Nome_rj TEXT(50) NULL,
+  Tipo_rj TEXT(50) NULL,
+  Descricao_rj TEXT(50) NULL,
+  Destinacao_rj TEXT(50) NULL,
+  PRIMARY KEY(idRejeito_rj, Producao_tb_Produto_pr, Producao_tb_idProducao_tb),
+  INDEX Rejeito_tb_FKIndex1(Producao_tb_idProducao_tb, Producao_tb_Produto_pr)
+);
+
+CREATE TABLE Repositorio_tb (
+  idRepositorio_rp INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+  Municipio_tb_Bairro_tb_idBairro_br INTEGER UNSIGNED NOT NULL,
+  Municipio_tb_Fornecedores_tb_idFornecedores_fo INTEGER(9) UNSIGNED NOT NULL,
+  Municipio_tb_Fornecedores_tb_Nome_fo TEXT(100) NOT NULL,
+  Municipio_tb_Fornecedores_tb_CPF_fo CHAR(14) NOT NULL,
+  Municipio_tb_Fornecedores_tb_CNPJ_fo CHAR(15) NOT NULL,
+  Municipio_tb_idMunicipio_tb INTEGER UNSIGNED NOT NULL,
+  Nome_rp TEXT(50) NULL,
+  Tipo_rp TEXT(40) NULL,
+  Endereco_rp INTEGER UNSIGNED NULL,
+  Bairro_rp TEXT(50) NULL,
+  Area_rp FLOAT NULL,
+  Divisoes_rp INTEGER UNSIGNED NULL,
+  Capacidade_rp FLOAT NULL,
+  Estatus_rp TEXT(20) NULL,
+  PRIMARY KEY(idRepositorio_rp),
+  INDEX Repositorio_tb_FKIndex1(Municipio_tb_idMunicipio_tb, Municipio_tb_Fornecedores_tb_CNPJ_fo, Municipio_tb_Fornecedores_tb_CPF_fo, Municipio_tb_Fornecedores_tb_Nome_fo, Municipio_tb_Fornecedores_tb_idFornecedores_fo, Municipio_tb_Bairro_tb_idBairro_br)
+);
+
+CREATE TABLE Residuos_tb (
+  idResiduos_tb INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+  Repositorio_tb_idRepositorio_rp INTEGER UNSIGNED NOT NULL,
+  Tipo_re TEXT(20) NULL,
+  Categoria_re TEXT(20) NULL,
+  Destinacao_re TEXT(20) NULL,
+  Descricao_re TEXT(200) NULL,
+  PRIMARY KEY(idResiduos_tb, Repositorio_tb_idRepositorio_rp),
+  INDEX Residuos_tb_FKIndex1(Repositorio_tb_idRepositorio_rp)
+);
+
+CREATE TABLE Residuos_tb_has_Producao_tb (
+  Residuos_tb_Repositorio_tb_idRepositorio_rp INTEGER UNSIGNED NOT NULL,
+  Residuos_tb_idResiduos_tb INTEGER UNSIGNED NOT NULL,
+  Producao_tb_Produto_pr TEXT(50) NOT NULL,
+  Producao_tb_idProducao_tb INTEGER UNSIGNED NOT NULL,
+  PRIMARY KEY(Residuos_tb_Repositorio_tb_idRepositorio_rp, Residuos_tb_idResiduos_tb, Producao_tb_Produto_pr, Producao_tb_idProducao_tb),
+  INDEX Residuos_tb_has_Producao_tb_FKIndex1(Residuos_tb_idResiduos_tb, Residuos_tb_Repositorio_tb_idRepositorio_rp),
+  INDEX Residuos_tb_has_Producao_tb_FKIndex2(Producao_tb_idProducao_tb, Producao_tb_Produto_pr)
+);
+
+CREATE TABLE Rota_tb (
+  idRota_rt INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+  Bairro_tb_idBairro_br INTEGER UNSIGNED NOT NULL,
+  Municipio_tb_Bairro_tb_idBairro_br INTEGER UNSIGNED NOT NULL,
+  Municipio_tb_Fornecedores_tb_idFornecedores_fo INTEGER(9) UNSIGNED NOT NULL,
+  Municipio_tb_Fornecedores_tb_Nome_fo TEXT(100) NOT NULL,
+  Municipio_tb_Fornecedores_tb_CPF_fo CHAR(14) NOT NULL,
+  Municipio_tb_Fornecedores_tb_CNPJ_fo CHAR(15) NOT NULL,
+  Repositorio_tb_idRepositorio_rp INTEGER UNSIGNED NOT NULL,
+  Municipio_tb_idMunicipio_tb INTEGER UNSIGNED NOT NULL,
+  Descricao_rt TEXT(200) NULL,
+  Area_rt INTEGER UNSIGNED NULL,
+  Quadras_rt TEXT(200) NULL,
+  Garagem_rt TEXT(200) NULL,
+  GaragemPAkm_rt FLOAT NULL,
+  PontoAdesc_rt TEXT(200) NULL,
+  PontoABkm_rt FLOAT NULL,
+  PontoB_rt TEXT(200) NULL,
+  PRIMARY KEY(idRota_rt, Bairro_tb_idBairro_br),
+  INDEX Rota_tb_FKIndex1(Municipio_tb_idMunicipio_tb, Municipio_tb_Fornecedores_tb_CNPJ_fo, Municipio_tb_Fornecedores_tb_CPF_fo, Municipio_tb_Fornecedores_tb_Nome_fo, Municipio_tb_Fornecedores_tb_idFornecedores_fo, Municipio_tb_Bairro_tb_idBairro_br),
+  INDEX Rota_tb_FKIndex2(Bairro_tb_idBairro_br),
+  INDEX Rota_tb_FKIndex3(Repositorio_tb_idRepositorio_rp)
+);
+
+CREATE TABLE SLU_tb (
+  idSLU_sl INTEGER(9) UNSIGNED NOT NULL AUTO_INCREMENT,
+  Data_sl DATE NULL,
+  Endereco_sl TEXT(100) NULL,
+  Bairro_sl TEXT(50) NULL,
+  Cidade_sl TEXT(50) NULL,
+  Telefone_sl CHAR(13) NULL,
+  Gestor_sl TEXT(50) NULL,
+  TipoColeta_sl TEXT(20) NULL,
+  MaoObra_sl TEXT(20) NULL,
+  QuantFunc_sl INTEGER(9) UNSIGNED NULL,
+  Terceirizada_sl TEXT(50) NULL,
+  NContrato_sl CHAR(20) NULL,
+  VigContIncial_sl DATE NULL,
+  VigContFinal_sl DATE NULL,
+  TipoLicitacao TEXT(20) NULL,
+  NumeroLicitacao CHAR(20) NULL,
+  PRIMARY KEY(idSLU_sl)
+);
+
+CREATE TABLE Terceiros_tb (
+  idTerceiros_te INTEGER(9) UNSIGNED NOT NULL AUTO_INCREMENT,
+  Empresa_te TEXT(50) NOT NULL,
+  Municipio_tb_Bairro_tb_idBairro_br INTEGER UNSIGNED NOT NULL,
+  Municipio_tb_Fornecedores_tb_idFornecedores_fo INTEGER(9) UNSIGNED NOT NULL,
+  Municipio_tb_Fornecedores_tb_Nome_fo TEXT(100) NOT NULL,
+  Municipio_tb_Fornecedores_tb_CPF_fo CHAR(14) NOT NULL,
+  Municipio_tb_Fornecedores_tb_CNPJ_fo CHAR(15) NOT NULL,
+  Municipio_tb_idMunicipio_tb INTEGER UNSIGNED NOT NULL,
+  Data_te DATE NULL,
+  Telefone_te CHAR(15) NULL,
+  Gestor_te TEXT(50) NULL,
+  TipoServ_te TEXT(50) NULL,
+  QPrestadores_te INTEGER(9) UNSIGNED NULL,
+  QFuncoes_te INTEGER(9) UNSIGNED NULL,
+  Funcoes_te TEXT(50) NULL,
+  PRIMARY KEY(idTerceiros_te, Empresa_te, Municipio_tb_Bairro_tb_idBairro_br, Municipio_tb_Fornecedores_tb_idFornecedores_fo, Municipio_tb_Fornecedores_tb_Nome_fo, Municipio_tb_Fornecedores_tb_CPF_fo, Municipio_tb_Fornecedores_tb_CNPJ_fo, Municipio_tb_idMunicipio_tb),
+  INDEX Terceiros_tb_FKIndex1(Municipio_tb_idMunicipio_tb, Municipio_tb_Fornecedores_tb_CNPJ_fo, Municipio_tb_Fornecedores_tb_CPF_fo, Municipio_tb_Fornecedores_tb_Nome_fo, Municipio_tb_Fornecedores_tb_idFornecedores_fo, Municipio_tb_Bairro_tb_idBairro_br)
+);
+
+CREATE TABLE Usuario_tb (
+  idUsuario_tb INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+  Matricula_us CHAR(9) NOT NULL,
+  CPF_us INTEGER(14) UNSIGNED NOT NULL,
+  Nome_us TEXT(100) NOT NULL,
+  Data_us DATE NULL,
+  Vinculo_us TEXT(50) NULL,
+  Instituicao_us TEXT(50) NULL,
+  Usuario_us CHAR(8) NULL,
+  Senha_us CHAR(8) NULL,
+  NivelAcesso_us INTEGER(1) UNSIGNED NULL,
+  Email_us CHAR(50) NULL,
+  PRIMARY KEY(idUsuario_tb, Matricula_us, CPF_us, Nome_us)
+);
+
+CREATE TABLE Veiculo_tb (
+  idVeiculo_ve INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+  Rota_tb_Bairro_tb_idBairro_br INTEGER UNSIGNED NOT NULL,
+  Rota_tb_idRota_rt INTEGER UNSIGNED NOT NULL,
+  Placa_ve INTEGER UNSIGNED NULL,
+  Modelo_ve TEXT(20) NULL,
+  Marca_ve INTEGER UNSIGNED NULL,
+  AnoFab_ve INTEGER UNSIGNED NULL,
+  Hodometro_ve FLOAT NULL,
+  Chassis_ve CHAR(30) NULL,
+  Renavam_ve CHAR(20) NULL,
+  Med_carroceria_ve FLOAT NULL,
+  Tara_ve FLOAT NULL,
+  CapKG_ve FLOAT NULL,
+  CapM3_ve FLOAT NULL,
+  NEixos_ve INTEGER UNSIGNED NULL,
+  Cap_Tanque INTEGER UNSIGNED NULL,
+  KmL FLOAT NULL,
+  Proprietario_ve TEXT(200) NULL,
+  CPF_CnPJ_ve CHAR(14) NULL,
+  InscEst_prop_ve CHAR(30) NULL,
+  Contato_ve TEXT(200) NULL,
+  Telefone_ve INTEGER(10) UNSIGNED NULL,
+  Celular_prop_ve INTEGER(10) UNSIGNED NULL,
+  EnderecoProp_ve TEXT(200) NULL,
+  Cidade_Prop_ve TEXT(50) NULL,
+  Bairro_Prop_ve TEXT(50) NULL,
+  PRIMARY KEY(idVeiculo_ve),
+  INDEX Veiculo_tb_FKIndex1(Rota_tb_idRota_rt, Rota_tb_Bairro_tb_idBairro_br)
+);
+
+

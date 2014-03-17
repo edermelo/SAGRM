@@ -1,0 +1,31 @@
+<?php
+require("MySQL_data.php");
+
+
+
+$ncmessage = "Ouve um erro ao se conectar ao banco de dados.<br />Aguarde 3 segundos... <script type='text/javascript'>
+window.setTimeout('document.location=document.location',3000);</script>";
+
+
+// conectando ao servidor MySQL
+$MySQL_Conn = mysql_connect($MySQL_Server, $MySQL_User, $MySQL_Pass)
+	
+//or die("Não foi possivel se conectar ao servidor SQL em: $MySQL_Server");
+	
+
+or die($ncmessage);
+
+
+//echo "Conectado ao servidor MySQL: $MySQL_Server";
+
+
+// seleciona um banco de dados para trabalhar
+mysql_select_db($MySQL_DB, $MySQL_Conn)
+	
+
+or die("<br>Não foi possivel se conectar ao banco de dados: $MySQL_DB. Para instalar <a href='install'>CLIQUE AQUI</a>.");
+
+
+//echo "<br>Conectado ao banco de dados: $MySQL_DB";
+
+?>

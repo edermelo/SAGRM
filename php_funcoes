@@ -1,0 +1,422 @@
+<?php
+require("php_classes.php");
+
+
+
+function valida_data($dat){
+	list($d,$m,$a) = explode("/",$dat);
+	return @checkdate($m,$d,$a);
+}
+
+
+function utf2ascii($string) {
+ 
+
+$iso88591  = "\\xE0\\xE1\\xE2\\xE3\\xE4\\xE5\
+\xE6\\xE7";
+ 
+$iso88591 .= "\\xE8\\xE9\\xEA\\xEB\\xEC\\xED\
+\xEE\\xEF";
+ 
+$iso88591 .= "\\xF0\\xF1\\xF2\\xF3\\xF4\\xF5\
+\xF6\\xF7";
+ 
+$iso88591 .= "\\xF8\\xF9\\xFA\\xFB\\xFC\\xFD\
+\xFE\\xFF";
+ 
+$ascii = "aaaaaaaceeeeiiiidnooooooouuuuyyy";
+ 
+
+return strtr(mb_strtolower(utf8_decode($string), 'ISO-8859-1'),
+$iso88591,$ascii);
+}
+function mynl2br($text) {
+   return strtr($text, array("\r\n" => '<br />', "\r" => '<br />', "\n" => '<br />'));
+}
+
+
+function mynl2nt($text) {
+   return strtr($text, array("\r\n" => '', "\r" => '', "\n" => ''));
+} 
+
+function br2nl($string){
+	return preg_replace('/\<br(\s*)?\/?\>/i', "\n", $string);
+}
+
+function trim_value(&$value){ 
+    return trim($value); 
+}
+
+
+function anti_injection($sql){
+   
+
+$sql = preg_replace(sql_regcase("/(from|select|insert|delete|where|drop table|show tables|#|\*|--|\\\\)/"), "" ,$sql);
+   
+
+$sql = trim($sql);
+   
+$sql = strip_tags($sql);
+   
+$sql = (get_magic_quotes_gpc()) ? 
+$sql : addslashes($sql);
+   
+$sql = mysql_real_escape_string($sql);
+   return $sql;
+}
+
+
+function formata_data($strData, $strModo){
+	
+
+	if($strModo=="date"){
+		return date("Y-m-d", strtotime($strData));
+	}
+
+	elseif($strModo=="datetime"){
+		return date("Y-m-d H:i:s", strtotime($strData));
+	}
+
+	elseif($strModo=="time"){
+		return date("H:i:s", strtotime($strData));
+	}
+	
+	else{
+		return date("Y-m-d", strtotime($strData));
+	}
+}
+
+
+function datetime(){
+	return date("Y-m-d H:i:s");
+}
+
+function datezero(){
+	return "0000-00-00";
+}
+function data_us_br($strData){
+	
+	if($strData=="") return;
+	
+		list($s_data, $s_hora) = explode(' ', $strData);
+
+	
+		list($s_data_ano, $s_data_mes, $s_data_dia) = split('[-]', $s_data);
+	
+	
+	if($s_hora!=""){
+ return $s_data_dia."/".$s_data_mes."/".$s_data_ano." ".$s_hora;
+	}
+
+	else{
+return $s_data_dia."/".$s_data_mes."/".$s_data_ano;
+	}
+}
+
+
+function data_br_us($strData){
+	if($strData=="") return;
+	
+	list($s_data, $s_hora) = split('[ ]', $strData);
+	
+	list($s_data_dia, $s_data_mes, $s_data_ano) = split('[/]', $s_data);
+	
+
+	if(isset($s_hora)){
+		
+	return $s_data_ano."-".$s_data_mes."-".$s_data_dia." ".$s_hora;
+	}
+
+	else{
+	return $s_data_ano."-".$s_data_mes."-".$s_data_dia;
+	}
+}
+
+	
+	function data_atual(){
+	return date("Y-m-d");
+}
+
+
+	function diferenca_data_dias($data1,$data2){
+	
+
+	list($data1_y,$data1_m,$data1_d) = split("-",$data1);
+	
+	list($data2_y,$data2_m,$data2_d) = split("-",$data2);
+	
+	return ceil(((mktime(0,0,0,$data1_m,$data1_d,$data1_y) - mktime(0,0,0,$data2_m,$data2_d,$data2_y))/86400));
+}
+
+
+function encurtar_str($str){
+	
+
+	if(strlen($str)>22){
+		return substr($str,0,22)."...";
+	}
+	else{
+		return $str;
+	}
+}
+
+
+function short_curl($url){
+	
+	$ch = curl_init();
+	
+		curl_setopt($ch, CURLOPT_URL, $url);	
+	
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+	
+	$toreturn = curl_exec($ch);
+	curl_close($ch);
+	
+
+	return $toreturn;
+}
+
+
+function BBcode($bb_texto){
+	
+
+	$bb_a = array(
+	
+		"/\[negrito\](.*?)\[\/negrito\]/is",
+	"/\[italico\](.*?)\[\/italico\]/is",
+	
+		"/\[sublinhado\](.*?)\[\/sublinhado\]/is",
+	"/\[imagem\](.*?)\[\/imagem\]/is",
+	
+		"/\[link=(.*?)\](.*?)\[\/link\]/is",
+	"/\[tamanho=(.*?)\](.*?)\[\/tamanho\]/is",
+	);
+	
+
+	$bb_b = array(
+	
+		"<b>$1</b>",
+	"<i>$1</i>",
+	"<u>$1</u>",
+	"<img src=\"$1\" />",
+	
+		"<a href=\"$1\" target=\"_blank\">$2</a>",
+	'<font size=$1>$2</font>',
+	);
+	
+
+	$bb_texto = preg_replace($bb_a, $bb_b, $bb_texto);
+	
+	$bb_texto = nl2br($bb_texto);
+	return $bb_texto;
+}
+
+function one_wordwrap($string,$width){
+  	
+
+	$s=explode(" ", $string);
+  foreach ($s as $k=>$v) {
+    $cnt=strlen($v);
+    
+
+	if($cnt>$width) 
+		$v=wordwrap($v, $width, "<br />", true);
+      
+		$new_string.="$v ";
+  }
+  return $new_string;
+} 
+
+
+function redirect($redirect_page){
+	
+
+	if($redirect_page != ""){
+		header("Location: ".$redirect_page);
+	}
+}
+
+
+	if(isset($_COOKIE['usuario'])){
+	
+		$usuario = anti_injection($_COOKIE['usuario']);
+	
+		$senha = anti_injection($_COOKIE['senha']);	
+	
+		$consulta = mysql_query("SELECT * FROM usuarios WHERE matricula = '".$usuario."' AND senha = '".$senha."'");
+	
+
+//echo("SELECT * FROM usuarios WHERE matricula = '".$usuario."' AND senha = '".$senha."'");
+	
+
+if(mysql_num_rows($consulta)<1){
+setcookie("usuario", "", time()+172800, "/");
+		
+
+	setcookie("senha", "", time()+172800, "/");
+		
+	die("Autenticação inválida!");
+
+//redirect("?mode=logout");
+	}
+	
+
+	$sql_usuario = mysql_fetch_array($consulta);
+	
+	$_USER = $sql_usuario;
+	
+	
+
+	
+}
+
+
+function str_hex($string){
+    $hex='';
+    
+	for ($i=0; $i < strlen($string); $i++){
+        
+
+	$hex .= dechex(ord($string[$i]));
+    }
+    
+
+	return $hex;
+}
+function hex_str($hex){
+    
+
+	$string='';
+    
+	for ($i=0; $i < strlen($hex)-1; $i+=2){
+        
+	$string .= chr(hexdec($hex[$i].$hex[$i+1]));
+    }
+    
+	return $string;
+}
+
+
+
+function login($l_usuario,$l_senha){
+	
+		$l_usuario = mysql_real_escape_string($l_usuario);
+	
+		$l_senha = mysql_real_escape_string(md5($l_senha));
+	
+
+//javascript_die('alert("'.$l_senha.'");');
+	
+		$sql_login = mysql_query("SELECT nome FROM usuarios WHERE matricula = '".$l_usuario."' AND senha = '".$l_senha."'");
+	
+
+		if(mysql_fetch_assoc($sql_login)){
+setcookie("usuario", $l_usuario, time()+172800, "/") or die("erro ao se logar");
+		
+
+			setcookie("senha", $l_senha, time()+172800, "/") or die("erro ao se logar");
+		
+
+			return true;
+	}
+		else{
+		return false;
+	}
+}
+
+
+function not_logged(){
+	
+		if(isset($_COOKIE['usuario'])){
+		redirect("?mode=inicial");
+	}
+}
+
+
+function only_logged($perm){
+	global $_USER;
+	//print_r($_USER[nivel_acesso]);
+	
+
+		if($_COOKIE['usuario']=="") redirect("?mode=home");
+	
+
+	//echo("'".strpos($perm, $_USER[nivel_acesso])."'");
+	
+
+	//die();
+	if(strpos($perm, $_USER[nivel_acesso])===false) die("<center>Sem permissão!</center>");
+
+
+
+}
+function not_expired(){global $usuario_exp;
+	
+		if($usuario_exp==1){
+		
+			echo("Desculpe, mas sua conta expirou!");
+		
+
+			die();
+	}
+}
+function nivel($r){
+	global $usuario_nivel;
+	
+		if($usuario_nivel<$r){
+		
+			echo("Sem nível de permissão!");
+		
+			die();
+	}
+}
+
+
+
+function create_zip($files = array(),$destination = '',$overwrite = false){  
+  
+		if(file_exists($destination) && !$overwrite) { return false; }
+  $valid_files = array();
+  
+		if(is_array($files)){
+    foreach($files as $file){
+      
+		if(file_exists($file)){
+        $valid_files[] = $file;
+      }
+    }
+  }
+  
+		if(count($valid_files)) {
+    $zip = new ZipArchive();
+    
+		if($zip->open($destination,$overwrite ? ZIPARCHIVE::OVERWRITE : ZIPARCHIVE::CREATE) !== true) {
+ return false;
+}
+foreach($valid_files as 
+			$file) {
+      $zip->addFile($file,$file);
+    }
+    $zip->close();
+    
+
+			return file_exists($destination);
+  }
+  
+
+		else
+  {
+    return false;
+  }
+}
+
+
+function javascript_die($js_code){
+	die('<script type="text/javascript">'.$js_code.'</script>');
+}
+
+
+function javascript_echo($js_code){
+	echo('<script type="text/javascript">'.$js_code.'</script>');
+}
+?>

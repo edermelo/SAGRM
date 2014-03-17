@@ -1,0 +1,71 @@
+<?php
+	$_CONFIG[mainframe_include] = "";
+	
+
+$_CONFIG[main_include] = "?mode=index";
+	
+
+
+/*Configuração de Níveis de Acesso*/				
+	
+
+$_CONFIG[niveis_acesso] = array(
+
+	"A" => "ADMINISTRADOR",
+
+	
+"B" => "Orientadores",
+
+	
+"C" => "Cadastrador",
+
+
+	"D" => "Diretoria de Campus",
+
+	
+"E" => "Reitoria UNB");
+
+
+
+/* Lista de Cores */
+	
+
+$_cores = array('AFD8F8','F6BD0F','8BBA00','FF8E46','008E8E','D64646','8E468E','588526');
+	
+
+
+
+/*Lista de Estados*/	
+
+$_CONFIG[estados] = array(
+
+	"AC"=>"Acre", "AL"=>"Alagoas", "AM"=>"Amazonas", "AP"=>"Amapá","BA"=>"Bahia","CE"=>"Ceará",
+
+	"DF"=>"Distrito Federal","ES"=>"Espírito Santo","GO"=>"Goiás","MA"=>"Maranhão","MT"=>"Mato Grosso",
+
+	"MS"=>"Mato Grosso do Sul","MG"=>"Minas Gerais","PA"=>"Pará","PB"=>"Paraíba","PR"=>"Paraná",
+
+	"PE"=>"Pernambuco","PI"=>"Piauí","RJ"=>"Rio de Janeiro","RN"=>"Rio Grande do Norte","RO"=>"Rondônia",
+
+	"RS"=>"Rio Grande do Sul","RR"=>"Roraima","SC"=>"Santa Catarina","SE"=>"Sergipe","SP"=>"São Paulo","TO"=>"Tocantins");
+	
+
+	
+/* Lista de Meses */
+
+$_meses = array(null,'janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro');
+	
+
+
+
+/* Lista de Dias */	
+
+$_dias = array(null,'seg','ter','qua','qui','sex','sab','dom');
+	
+	
+
+
+/*Configuração de situações de reposotório de Lixo*/
+
+$_CONFIG[situacoes] = array("0" => "-Aterro Sanotário", "-1" => "-Lixão", "-2" => "-Interditado", "a" => "-Desativado");
+?>

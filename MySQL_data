@@ -1,0 +1,13 @@
+<?php
+
+
+$MySQL_Server = "localhost";
+
+$MySQL_User = "root";
+
+$MySQL_Pass = "root";
+
+$MySQL_DB = "sagrm";
+
+
+?>

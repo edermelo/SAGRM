@@ -13,17 +13,13 @@ $_CONFIG[niveis_acesso] = array(
 
 	"A" => "ADMINISTRADOR",
 
-	
-"B" => "Orientadores",
+	"B" => "prefeitura",
 
-	
-"C" => "Cadastrador",
+	C" => "SLU",
 
+	D" => "Terceiros",
 
-	"D" => "Diretoria de Campus",
-
-	
-"E" => "Reitoria UNB");
+	E" => "colaboradores");
 
 
 
